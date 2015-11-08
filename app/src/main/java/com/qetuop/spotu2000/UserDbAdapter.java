@@ -37,7 +37,7 @@ public class UserDbAdapter extends AbstractDbAdapter {
     private User cursorToUser(Cursor cursor) {
         User user = new User();
 
-        user.setId(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID))); // why can't get?
+        user.setId(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID)));
         user.setFirstName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_FIRST_NAME)));
         user.setLastName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_LAST_NAME)));
         user.setUserName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_USER_NAME)));
@@ -80,6 +80,35 @@ public class UserDbAdapter extends AbstractDbAdapter {
         cursor.moveToFirst();
 
         User user = cursorToUser(cursor);
+
+        cursor.close();
+
+        return user;
+    }
+
+    // READ
+    public User getUser(String userName) {
+        User user = new User();
+
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = null;//COLUMN_USER_USER_NAME + " DESC";
+        String selection = COLUMN_USER_USER_NAME + "=?";
+        String[] selectionArgs = {userName};
+
+        Cursor cursor = mDb.query(
+                TABLE_USER,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+
+        if ( cursor.moveToFirst() == true ) // not empty
+            user = cursorToUser(cursor);
 
         cursor.close();
 
