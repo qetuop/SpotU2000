@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -97,6 +99,55 @@ public class WorkoutDbAdapter extends AbstractDbAdapter {
         // make sure to close the cursor
         cursor.close();
 
+        return workouts;
+    }
+
+    // TODO - not using date passed in
+    public List<Workout> getAllWorkoutsByDate(long date) {
+        List<Workout> workouts = new ArrayList<>();
+        String sql =  "SELECT * FROM "+ TABLE_WORKOUT + " WHERE date(datetime(" + COLUMN_WORKOUT_CREATION_DATE + " / 1000 , 'unixepoch')) = date('now')";
+       // String sql =  "SELECT * FROM "+ TABLE_WORKOUT + " WHERE date(datetime(" + COLUMN_WORKOUT_CREATION_DATE + " / 1000 , 'unixepoch', 'localtime')) = datetime('" + date/1000 + "')";
+
+        Cursor cursor = mDb.rawQuery(sql, null);
+
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+                Workout workout = cursorToWorkout(cursor);
+                workouts.add(workout);
+                cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+
+
+/*
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = null;//COLUMN_USER_USER_NAME + " DESC";
+        String selection = COLUMN_WORKOUT_CREATION_DATE + "=?";
+        String[] selectionArgs = {String.valueOf(date/1000)};
+
+        // SELECT datetime(1346142933585/1000, 'unixepoch', 'localtime');
+        // SELECT * FROM TABLE_WORKOUT WHERE date(datetime(COLUMN_WORKOUT_CREATION_DATE / 1000 , 'unixepoch')) = date('now')
+
+        Cursor cursor = mDb.query(
+                TABLE_WORKOUT,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Workout workout = cursorToWorkout(cursor);
+            workouts.add(workout);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+*/
         return workouts;
     }
 

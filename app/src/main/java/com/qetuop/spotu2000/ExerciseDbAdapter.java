@@ -73,6 +73,33 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
         return exercise;
     }
 
+    public Exercise getExercise(String name) {
+        Exercise exercise = new Exercise();
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = null;//COLUMN_USER_USER_NAME + " DESC";
+        String selection = COLUMN_EXERCISE_NAME + "=?";
+        String[] selectionArgs = {name};
+
+        Cursor cursor = mDb.query(
+                TABLE_EXERCISE,  // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        cursor.moveToFirst();
+        if ( cursor.moveToFirst() == true ) // not empty
+            exercise = cursorToExercise(cursor);
+
+        cursor.close();
+
+        return exercise;
+    }
+
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
 
