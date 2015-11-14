@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="new_workout">New Workout</string>
+    <string name="exercise">Exercise</string>
+    <string name="weight">Weight</string>
+    <string name="reps">Reps</string>
+    <string name="select_exercise">"Select Exercise"</string>
+    <string name="date">date</string>
+    <string name="user_name">user name</string>
 </resources>

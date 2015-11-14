@@ -1,5 +1,6 @@
 package com.qetuop.spotu2000;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -130,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
             //long ex_id2 = mExerciseDbAdapter.createExercise(ex2);
             //ex2.setId(ex_id2);
         }
+        else
+            ex_id1 = ex1.getId();
+
         //Exercise ex2; = new Exercise("Tricep Push Down", "Tricep", mUserId);
 
         ////// --------------------------- //////
@@ -140,13 +144,27 @@ public class MainActivity extends AppCompatActivity {
         // Create Workout
         Workout w1 = new Workout(System.currentTimeMillis(), ex_id1);
         Workout w2 = new Workout(System.currentTimeMillis()-1000000000, ex_id1);
-
+        Workout w3 = new Workout(System.currentTimeMillis(), ex_id1);
+        System.out.println(w1.getExercise_id());
+        //w1.setExercise_id(ex_id1);
         w1.setReps("10,8,6");
         w1.setSets(3);
-        w1.setWeight("80,90,100");
+        w1.setWeight("81,90,100");
+        System.out.println(w1.getExercise_id());
+        //w2.setExercise_id(ex_id1);
+        w2.setReps("20,16,12");
+        w2.setSets(3);
+        w2.setWeight("40,45,50");
+
+        /*w3.setExercise_id(ex_id1);
+        w3.setReps("10,8,6");
+        w3.setSets(3);
+        w3.setWeight("80,90,100");*/
 
         long w_id1 = mWorkoutDbAdapter.createWorkout(w1);
+        System.out.println(w1.getExercise_id());
         long w_id2 = mWorkoutDbAdapter.createWorkout(w2);
+        long w_id3 = mWorkoutDbAdapter.createWorkout(w3);
 
         ////// --------------------------- //////
 
@@ -174,6 +192,22 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(df2.format(new Date(wo.getDate())));
         }
         System.out.println("-----------------");
+
+        //ArrayList<Workout> workoutList;
+        //mExerciseArrayList = (ArrayList) mExerciseDataSource.getAllExercises();
+        //mExerciseAdapter = new ExerciseAdapter(this, mExerciseArrayList);
+
+        final ListView listview = (ListView) findViewById(R.id.activity_main_lv_workouts);
+
+        Cursor workoutCursor = mWorkoutDbAdapter.getAllWorkoutsCursorByDate();
+
+        // Setup cursor adapter using cursor from last step
+        WorkoutCursorAdapter workoutAdapter = new WorkoutCursorAdapter(this, workoutCursor,0);
+
+        // Attach cursor adapter to the ListView
+        listview.setAdapter(workoutAdapter);
+
+
     }
 
     public void newWorkout(View view) {

@@ -45,8 +45,7 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
 
     // READ
     public Exercise getExercise(long id) {
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+        Exercise exercise = new Exercise();
 
 
         // How you want the results sorted in the resulting Cursor
@@ -65,8 +64,8 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
         );
 
         cursor.moveToFirst();
-
-        Exercise exercise = cursorToExercise(cursor);
+        if ( cursor.moveToFirst() == true ) // not empty
+            exercise = cursorToExercise(cursor);
 
         cursor.close();
 

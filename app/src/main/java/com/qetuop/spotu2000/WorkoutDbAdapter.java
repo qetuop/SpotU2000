@@ -102,6 +102,30 @@ public class WorkoutDbAdapter extends AbstractDbAdapter {
         return workouts;
     }
 
+    public Cursor getAllWorkoutsCursor() {
+         Cursor cursor = mDb.query(
+                TABLE_WORKOUT,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        cursor.moveToFirst();
+
+        return cursor;
+    }
+
+    public Cursor getAllWorkoutsCursorByDate() {
+        String sql =  "SELECT * FROM "+ TABLE_WORKOUT + " WHERE date(datetime(" + COLUMN_WORKOUT_CREATION_DATE + " / 1000 , 'unixepoch')) = date('now')";
+
+
+        Cursor cursor = mDb.rawQuery(sql, null);
+
+        return cursor;
+    }
+
     // TODO - not using date passed in
     public List<Workout> getAllWorkoutsByDate(long date) {
         List<Workout> workouts = new ArrayList<>();

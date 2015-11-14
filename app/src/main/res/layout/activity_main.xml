@@ -12,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/activity_main_tv_username"
-        android:hint="user name" />
+        android:hint="@string/user_name" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/activity_main_tv_date"
-        android:hint="date" />
+        android:hint="@string/date" />
 
     <Button
         android:layout_width="wrap_content"
