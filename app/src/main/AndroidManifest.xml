@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WorkoutActivity"
+            android:label="@string/title_activity_workout" >
+        </activity>
+        <activity
+            android:name=".ExerciseSelection"
+            android:label="@string/title_activity_exercise_selection" >
+        </activity>
     </application>
 
 </manifest>

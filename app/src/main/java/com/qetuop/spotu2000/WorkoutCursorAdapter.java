@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class WorkoutCursorAdapter  extends CursorAdapter {
     protected static final String LOG = "WorkoutCursorAdapter";
-    private ExerciseDbAdapter mExerciseDbAdapter;
+    private ExerciseDbAdapter mExerciseDbAdapter; // need to lookup exercise name
 
     public WorkoutCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, 0);

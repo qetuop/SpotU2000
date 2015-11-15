@@ -32,7 +32,7 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
     }
 
     // convert a "ptr/cursor" of a table entry to an object
-    private Exercise cursorToExercise(Cursor cursor) {
+    public Exercise cursorToExercise(Cursor cursor) {
         Exercise exercise = new Exercise();
 
         exercise.setId(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_ID))); // why can't get?
@@ -99,6 +99,7 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
         return exercise;
     }
 
+
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
 
@@ -121,6 +122,98 @@ public class ExerciseDbAdapter extends AbstractDbAdapter {
         cursor.close();
 
         return exercises;
+    }
+
+    public Cursor getAllExercisesOfTypeCursor(String type) {
+        //String sql =  "SELECT * FROM "+ TABLE_EXERCISE + " WHERE " + COLUMN_EXERCISE_TYPE + "  = " + type;
+
+        //Cursor cursor = mDb.rawQuery(sql, null);
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = COLUMN_EXERCISE_NAME;
+        String selection = COLUMN_EXERCISE_TYPE + "=?";
+        String[] selectionArgs = {type};
+
+        Cursor cursor = mDb.query(
+                TABLE_EXERCISE,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+
+        cursor.moveToFirst();
+
+        return cursor;
+    }
+
+    public List<Exercise> getAllExercisesByType(String type) {
+        List<Exercise> exercises = new ArrayList<>();
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder = null;//COLUMN_USER_USER_NAME + " DESC";
+        String selection = COLUMN_EXERCISE_TYPE + "=?";
+        String[] selectionArgs = {type};
+
+        Cursor cursor = mDb.query(
+                TABLE_EXERCISE,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Exercise exercise = cursorToExercise(cursor);
+            exercises.add(exercise);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+
+        return exercises;
+    }
+
+    /*
+distinct	true if you want each row to be unique, false otherwise.
+table	The table name to compile the query against.
+columns	A list of which columns to return. Passing null will return all columns, which is discouraged to prevent reading data from storage that isn't going to be used.
+selection	A filter declaring which rows to return, formatted as an SQL WHERE clause (excluding the WHERE itself). Passing null will return all rows for the given table.
+selectionArgs	You may include ?s in selection, which will be replaced by the values from selectionArgs, in order that they appear in the selection. The values will be bound as Strings.
+groupBy	A filter declaring how to group rows, formatted as an SQL GROUP BY clause (excluding the GROUP BY itself). Passing null will cause the rows to not be grouped.
+having	A filter declare which row groups to include in the cursor, if row grouping is being used, formatted as an SQL HAVING clause (excluding the HAVING itself). Passing null will cause all row groups to be included, and is required when row grouping is not being used.
+orderBy	How to order the rows, formatted as an SQL ORDER BY clause (excluding the ORDER BY itself). Passing null will use the default sort order, which may be unordered.
+limit	Limits the number of rows returned by the query, formatted as LIMIT clause. Passing null denotes no LIMIT clause.
+   */
+    public List<String> getExerciseTypes() {
+        List<String> exerciseTypes = new ArrayList<>();
+
+        String[] projection = {
+                COLUMN_EXERCISE_TYPE
+        };
+        Cursor cursor = mDb.query(
+                true,
+                TABLE_EXERCISE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            exerciseTypes.add( cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_EXERCISE_TYPE)) );
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+
+        return exerciseTypes;
     }
 
     // UPDATE

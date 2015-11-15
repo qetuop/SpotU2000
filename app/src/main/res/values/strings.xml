@@ -10,4 +10,8 @@
     <string name="select_exercise">"Select Exercise"</string>
     <string name="date">date</string>
     <string name="user_name">user name</string>
+    <string name="title_activity_workout">WorkoutActivity</string>
+    <string name="title_activity_exercise_selection">ExerciseSelection</string>
+    <string name="new_set">New Set</string>
+    <string name="done">Done</string>
 </resources>

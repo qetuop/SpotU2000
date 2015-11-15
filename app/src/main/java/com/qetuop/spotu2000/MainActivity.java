@@ -1,5 +1,6 @@
 package com.qetuop.spotu2000;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     protected static final String LOG = "MainActivity";
+
+    public final static String EXTRA_MESSAGE = "com.qetuop.MESSAGE";
 
     // Database accessors
     private ExerciseDbAdapter mExerciseDbAdapter;
@@ -78,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("BACK IN THE GAME");
+        update();
+    }
+
     private void databaseSetup() {
         mUserDbAdapter = new UserDbAdapter(this);
         try{
@@ -119,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
         ////// --------------------------- //////
 
         ////// Hardcode some exercieses //////
+        mExerciseDbAdapter.removeAllExercises();
+
         // Create Exercise
         Exercise ex1 = mExerciseDbAdapter.getExercise("Bench Press");
         long ex_id1 = 0;
@@ -133,6 +145,19 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             ex_id1 = ex1.getId();
+
+        Exercise ex;
+        ex= new Exercise("Tricep Push Down", "Tricep", mUserId);
+        mExerciseDbAdapter.createExercise(ex);
+
+        ex = new Exercise("Curls", "Biceps", mUserId);
+        mExerciseDbAdapter.createExercise(ex);
+
+        ex = new Exercise("Squat", "Legs", mUserId);
+        mExerciseDbAdapter.createExercise(ex);
+
+        ex = new Exercise("Flys", "Chest", mUserId);
+        mExerciseDbAdapter.createExercise(ex);
 
         //Exercise ex2; = new Exercise("Tricep Push Down", "Tricep", mUserId);
 
@@ -211,6 +236,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newWorkout(View view) {
-        System.out.println("NEW WORKOUT MAKE IT");
+        Intent intent = new Intent(this, WorkoutActivity.class);
+        //long l = 0l;
+        intent.putExtra(EXTRA_MESSAGE, 0l);
+        startActivity(intent);
     }
 }
