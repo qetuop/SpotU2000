@@ -1,8 +1,10 @@
 package com.qetuop.spotu2000;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
@@ -114,10 +116,13 @@ public class WorkoutActivity extends AppCompatActivity {
         weightRepPair.weightEt = new EditText(this);
         weightRepPair.repsEt = new EditText(this);
 
+        weightRepPair.weightEt.setRawInputType(Configuration.KEYBOARD_QWERTY);
+        weightRepPair.repsEt.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+
         weightRepPairList.add(weightRepPair);
 
-        weightRepPair.weightEt.setText("Enter Weight");
-        weightRepPair.repsEt.setText("Enter Reps");
+        weightRepPair.weightEt.setHint("Enter Weight");
+        weightRepPair.repsEt.setHint("Enter Reps");
 
         newSetLayout.addView(weightRepPair.weightEt);
         newSetLayout.addView(weightRepPair.repsEt);
