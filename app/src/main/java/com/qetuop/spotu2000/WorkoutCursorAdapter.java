@@ -45,20 +45,29 @@ public class WorkoutCursorAdapter  extends CursorAdapter {
         // Find fields to populate in inflated template
         TextView exerciseTv = (TextView) view.findViewById(R.id.row_workout_exercise_tv);
         TextView weightTv = (TextView) view.findViewById(R.id.row_workout_weight_tv);
-        TextView repsTv = (TextView) view.findViewById(R.id.row_workout_reps_tv);
+        //TextView repsTv = (TextView) view.findViewById(R.id.row_workout_reps_tv);
 
         // Extract properties from cursor
         long exerciseId = cursor.getLong(cursor.getColumnIndexOrThrow(AbstractDbAdapter.COLUMN_WORKOUT_EXERCISE_ID));
         String weight = cursor.getString(cursor.getColumnIndexOrThrow(AbstractDbAdapter.COLUMN_WORKOUT_WEIGHT));
         //int set = cursor.getInt((cursor.getInt(cursor.getColumnIndexOrThrow(AbstractDbAdapter.COLUMN_WORKOUT_SETS))));
-        String reps = cursor.getString(cursor.getColumnIndexOrThrow(AbstractDbAdapter.COLUMN_WORKOUT_REPS));
+        String rep = cursor.getString(cursor.getColumnIndexOrThrow(AbstractDbAdapter.COLUMN_WORKOUT_REPS));
 
         Exercise exercise = mExerciseDbAdapter.getExercise(exerciseId);
+        if ( weight != null && rep != null ) {
+            String[] weights = weight.split(",");
+            String[] reps = rep.split(",");
 
-        // Populate fields with extracted properties
-        exerciseTv.setText(String.valueOf(exercise.getExerciseName()));
-        weightTv.setText(String.valueOf(weight));
-        //setTv.setText(String.valueOf(set));
-        repsTv.setText(reps);
+            StringBuilder str = new StringBuilder();
+
+            for (int i = 0; i < weights.length; i++) {
+                str.append(weights[i]).append("(").append(reps[i]).append("), ");
+            }
+
+            // Populate fields with extracted properties
+            exerciseTv.setText(String.valueOf(exercise.getExerciseName()));
+            weightTv.setText(str.toString());
+            //repsTv.setText(str.toString());
+        }
     }
 }

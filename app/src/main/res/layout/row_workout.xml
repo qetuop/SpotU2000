@@ -6,21 +6,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="exercise"
         android:id="@+id/row_workout_exercise_tv"
-        android:hint="exercise"
+        android:hint="@string/exercise"
         android:paddingEnd="25dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="weight"
         android:id="@+id/row_workout_weight_tv"
-        android:paddingEnd="25dp" />
+        android:paddingEnd="25dp"
+        android:hint="@string/weight" />
 
-    <TextView
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="reps"
-        android:id="@+id/row_workout_reps_tv" />
+        android:id="@+id/row_workout_reps_tv"
+        android:hint="@string/reps" />-->
 </LinearLayout>

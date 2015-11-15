@@ -116,7 +116,7 @@ public class WorkoutActivity extends AppCompatActivity {
         weightRepPair.weightEt = new EditText(this);
         weightRepPair.repsEt = new EditText(this);
 
-        weightRepPair.weightEt.setRawInputType(Configuration.KEYBOARD_QWERTY);
+        weightRepPair.weightEt.setRawInputType(InputType.TYPE_CLASS_NUMBER);
         weightRepPair.repsEt.setRawInputType(InputType.TYPE_CLASS_NUMBER);
 
         weightRepPairList.add(weightRepPair);
@@ -140,8 +140,8 @@ public class WorkoutActivity extends AppCompatActivity {
             StringBuilder repBuilder = new StringBuilder();
 
             for ( WeightRepPair wpr : weightRepPairList ) {
-                weightBuilder.append(wpr.weightEt.getText());
-                repBuilder.append(wpr.repsEt.getText());
+                weightBuilder.append(wpr.weightEt.getText()).append(",");
+                repBuilder.append(wpr.repsEt.getText()).append(",");
             }
 
             workout.setSets(weightRepPairList.size());
