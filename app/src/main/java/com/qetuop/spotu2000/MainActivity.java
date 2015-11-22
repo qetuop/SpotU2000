@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         // have a way to select user (dworpdown which returns _id/user) - hardcode for now
         TextView userNameTv = (TextView) findViewById(R.id.activity_main_tv_username);
         userNameTv.setText(mUser.getUserName());
+
+        CalendarView calendar = (CalendarView)findViewById(R.id.avtivity_main_cv);
+
 
         // date - make this a more complex control, calendar, next/last wo, etc
         DateFormat df = DateFormat.getDateInstance();
